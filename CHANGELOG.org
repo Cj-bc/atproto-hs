@@ -1,0 +1,11 @@
+* Changelog for ~atproto-hs~
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [[https://keepachangelog.com/en/1.0.0/][Keep a Changelog]],
+and this project adheres to the
+[[https://pvp.haskell.org/][Haskell Package Versioning Policy]].
+
+** Unreleased
+
+** 0.1.0.0 - YYYY-MM-DD
