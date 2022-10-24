@@ -12,8 +12,8 @@ import Control.Monad (when)
 import Data.Either.Extra (maybeToEither)
 import Data.Either (fromRight)
 
-fromJ :: QuasiQuoter
-fromJ = QuasiQuoter { quoteDec = mkLexiconType
+lexicon :: QuasiQuoter
+lexicon = QuasiQuoter { quoteDec = mkLexiconType
                                  . fromRight (error "Invalid json format.")
                                  . eitherDecode . BS.pack
                     }

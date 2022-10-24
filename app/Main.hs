@@ -13,7 +13,7 @@ import Web.ATProto.Lexicons.Com.Atproto.RepoDescribe
 import Web.ATProto.Lexicons.TH
 $(mkRepoDescribeOutput)
 
-[fromJ|
+[lexicon|
 {
   "lexicon": 1,
   "id": "app.bsky.post",
