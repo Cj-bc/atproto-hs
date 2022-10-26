@@ -22,6 +22,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     Web.ATProto.Lexicons.Com.Atproto.RepoDescribe
                      , Web.ATProto.Lexicons.TH
+                     , Web.ATProto.Lexicons.Core
   build-depends:       base >= 4.7 && < 5
                      , text
                      , template-haskell
