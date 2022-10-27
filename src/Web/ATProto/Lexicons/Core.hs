@@ -6,6 +6,7 @@ import Data.Text (Text)
 import Data.Aeson (Value(..), FromJSON(parseJSON), (.:), (.:?), Object, withObject, withText)
 import Data.Aeson.Types (Parser)
 import Control.Monad (when)
+import qualified Data.Map as Map
 
 
 -- | NameSpace ID.
@@ -79,6 +80,7 @@ data LexiconDoc =
                               , _revision :: Maybe Double
                               , _description  :: Maybe Text
                               , _defs :: Maybe Value
+                              , _parameters :: Maybe (Map.Map Text XrpcParameter)
                               , _input :: Maybe XrpcBody
                               , _output :: Maybe XrpcBody
                               , _error :: Maybe XrpcError
