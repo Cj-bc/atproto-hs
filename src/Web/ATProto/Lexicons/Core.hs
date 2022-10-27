@@ -71,14 +71,14 @@ data LexiconDoc =
   RecordLexiconDocV1 { _id :: NSID
                      , _revision :: Maybe Double
                      , _description  :: Maybe Text
-                     , _defs :: Value
+                     , _defs :: Maybe Value
                      , _key :: Maybe Text
                      , _record :: Value
                      }
   | XrpcProcedureLexiconDocV1 { _id :: NSID
                               , _revision :: Maybe Double
                               , _description  :: Maybe Text
-                              , _defs :: Value
+                              , _defs :: Maybe Value
                               , _input :: Maybe XrpcBody
                               , _output :: Maybe XrpcBody
                               , _error :: Maybe XrpcError
@@ -86,7 +86,7 @@ data LexiconDoc =
   | XrpcQueryLexiconDocV1 { _id :: NSID
                           , _revision :: Maybe Double
                           , _description  :: Maybe Text
-                          , _defs :: Value
+                          , _defs :: Maybe Value
                           , _parameters :: Maybe (Map.Map Text XrpcParameter)
                           , _input :: Maybe XrpcBody
                           , _output :: Maybe XrpcBody
