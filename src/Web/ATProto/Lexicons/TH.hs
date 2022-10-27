@@ -11,22 +11,23 @@ import qualified Data.Aeson.KeyMap as KM
 import Control.Monad (when)
 import Data.Either.Extra (maybeToEither)
 import Data.Either (fromRight)
+import Web.ATProto.Lexicons.Core (LexiconDocV1)
 
 lexicon :: QuasiQuoter
-lexicon = QuasiQuoter { quoteDec = mkLexiconType
-                                 . fromRight (error "Invalid json format.")
+lexicon = QuasiQuoter { quoteDec = mkLexiconType'
+                                 . either error id
                                  . eitherDecode . BS.pack
                     }
 
 -- | Construct necesary 'Dec's from Lexicon JSON data.
 -- This __will__ throw error when something went wrong.
-mkLexiconType :: Value -> Q [Dec]
+mkLexiconType :: LexiconDocV1 -> Q [Dec]
 mkLexiconType = either error id . mkLexiconType'
 
 -- | Safe version of 'mkLexiconType'
 --
 -- Todo: What to do with description, revision, and defs fields? They're ignored for now
-mkLexiconType' :: Value -> Either String (Q [Dec])
+mkLexiconType' :: LexiconDocV1 -> Q [Dec]
 mkLexiconType' (Object o) = do
   -- version check
   lexiconVersion <- maybeToEither "Top-level dictionary should contain 'lexicon'" $ KM.lookup "lexicon" o
