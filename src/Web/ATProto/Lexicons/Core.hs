@@ -16,6 +16,9 @@ import Control.Monad (when)
 -- https://atproto.com/specs/nsid
 newtype NSID = NSID { unNSID :: Text } deriving (Show, Eq)
 
+instance FromJSON NSID where
+  parseJSON = withText "NSID" (return . NSID)
+  
 -- | Possible Body encodings.
 --
 -- e.g. 'application/ld+json'
