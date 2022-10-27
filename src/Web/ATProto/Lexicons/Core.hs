@@ -25,7 +25,15 @@ type Encoding = Text
 --
 -- Default value is also included to make implementation simpler.
 data XrpcParameterType = XrpcParameterString (Maybe Text)
-                       | XrpcParameterNumber (forall a. Num a => Maybe a)
+                       | XrpcParameterNumber (Maybe Double)
+                         -- ^ "Number" in json-schema is same as JSON's "number",
+                         -- and it is double-precision 64-bit according to [MDN document](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Number)
+                         -- 
+                         -- Other related resources: 
+                         --
+                         -- + [JSON-Schema's document](http://json-schema.org/draft/2020-12/json-schema-core.html#section-4.2.1-3.10)
+                         --
+                         -- + [JSON format (RFC 8259)](https://www.rfc-editor.org/rfc/rfc8259.html#section-6) 
                        | XrpcParameterNumbeInteger (Maybe Int)
                        | XrpcParameterBoolean (Maybe Bool)
     deriving (Show, Eq)
@@ -36,10 +44,10 @@ data XrpcParameterType = XrpcParameterString (Maybe Text)
 data XrpcParameter = XrpcParameter { _xrpcParameterType :: XrpcParameterType
                                    , _xrpcParameterDescription :: Text
                                    , _xrpcParameterRequired :: Maybe Bool
-                                   , _xrpcParameterMinLength :: forall a. Num a => Maybe a
-                                   , _xrpcParameterMaxLength :: forall a. Num a => Maybe a
-                                   , _xrpcParameterMinimum :: forall a. Num a => Maybe a
-                                   , _xrpcParameterMaximum :: forall a. Num a => Maybe a
+                                   , _xrpcParameterMinLength :: Maybe Double
+                                   , _xrpcParameterMaxLength :: Maybe Double
+                                   , _xrpcParameterMinimum :: Maybe Double
+                                   , _xrpcParameterMaximum :: Maybe Double
                                    }
 
 -- | XRPC body
@@ -58,14 +66,14 @@ data XrpcError = XrpcError { _xrpcErrorName :: Text
 -- | Whole Lexicon Document
 data LexiconDoc =
   RecordLexiconDocV1 { _id :: NSID
-                     , _revision :: Num a => Maybe a
+                     , _revision :: Maybe Double
                      , _description  :: Maybe Text
                      , _defs :: Value
                      , _key :: Maybe Text
                      , _record :: Value
                      }
   | XrpcProcedureLexiconDocV1 { _id :: NSID
-                              , _revision :: Num a => Maybe a
+                              , _revision :: Maybe Double
                               , _description  :: Maybe Text
                               , _defs :: Value
                               , _input :: Maybe XrpcBody
@@ -73,7 +81,7 @@ data LexiconDoc =
                               , _error :: Maybe XrpcError
                               }
   | XrpcQueryLexiconDocV1 { _id :: NSID
-                          , _revision :: Num a => Maybe a
+                          , _revision :: Maybe Double
                           , _description  :: Maybe Text
                           , _defs :: Value
                           , _parameters :: Maybe (Map.Map Text XrpcParameter)
