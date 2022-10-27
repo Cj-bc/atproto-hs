@@ -68,34 +68,34 @@ data XrpcError = XrpcError { _xrpcErrorName :: Text
                            }
 
 -- | Whole Lexicon Document
-data LexiconDoc =
-  RecordLexiconDocV1 { _id :: NSID
-                     , _revision :: Maybe Double
-                     , _description  :: Maybe Text
-                     , _defs :: Maybe Value
-                     , _key :: Maybe Text
-                     , _record :: Value
-                     }
-  | XrpcProcedureLexiconDocV1 { _id :: NSID
-                              , _revision :: Maybe Double
-                              , _description  :: Maybe Text
-                              , _defs :: Maybe Value
-                              , _parameters :: Maybe (Map.Map Text XrpcParameter)
-                              , _input :: Maybe XrpcBody
-                              , _output :: Maybe XrpcBody
-                              , _error :: Maybe XrpcError
-                              }
-  | XrpcQueryLexiconDocV1 { _id :: NSID
-                          , _revision :: Maybe Double
-                          , _description  :: Maybe Text
-                          , _defs :: Maybe Value
-                          , _parameters :: Maybe (Map.Map Text XrpcParameter)
-                          , _input :: Maybe XrpcBody
-                          , _output :: Maybe XrpcBody
-                          , _errors :: Maybe [XrpcError]
-                          }
+data LexiconDocV1 =
+  RecordLexiconDoc { _id :: NSID
+                   , _revision :: Maybe Double
+                   , _description  :: Maybe Text
+                   , _defs :: Maybe Value
+                   , _key :: Maybe Text
+                   , _record :: Value
+                   }
+  | XrpcProcedureLexiconDoc { _id :: NSID
+                            , _revision :: Maybe Double
+                            , _description  :: Maybe Text
+                            , _defs :: Maybe Value
+                            , _parameters :: Maybe (Map.Map Text XrpcParameter)
+                            , _input :: Maybe XrpcBody
+                            , _output :: Maybe XrpcBody
+                            , _error :: Maybe XrpcError
+                            }
+  | XrpcQueryLexiconDoc { _id :: NSID
+                        , _revision :: Maybe Double
+                        , _description  :: Maybe Text
+                        , _defs :: Maybe Value
+                        , _parameters :: Maybe (Map.Map Text XrpcParameter)
+                        , _input :: Maybe XrpcBody
+                        , _output :: Maybe XrpcBody
+                        , _errors :: Maybe [XrpcError]
+                        }
 
-instance FromJSON LexiconDoc where
+instance FromJSON LexiconDocV1 where
   parseJSON = withObject "lexicon" $ \v -> do
     (lexiconVersion :: Int) <- v .: "lexicon"
     when (lexiconVersion /= 1) $ fail  "only lexicon version 1 is supported for now"
@@ -106,14 +106,14 @@ instance FromJSON LexiconDoc where
       (String "procedure") -> parseProcedureMethod v
       (String "record") -> parseRecord v
   
-parseQueryMethod :: Object -> Parser LexiconDoc
+parseQueryMethod :: Object -> Parser LexiconDocV1
 parseQueryMethod _ = fail "Not implemented yet"
 
-parseProcedureMethod :: Object -> Parser LexiconDoc
+parseProcedureMethod :: Object -> Parser LexiconDocV1
 parseProcedureMethod _ = fail "Not implemented yet"
 
-parseRecord :: Object -> Parser LexiconDoc
-parseRecord v = RecordLexiconDocV1
+parseRecord :: Object -> Parser LexiconDocV1
+parseRecord v = RecordLexiconDoc
                 <$> v .: "id"
                 <*> v .:? "revision"
                 <*> v .:? "description"
