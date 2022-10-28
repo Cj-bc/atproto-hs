@@ -69,14 +69,14 @@ data XrpcError = XrpcError { _xrpcErrorName :: Text
 
 -- | Whole Lexicon Document
 data LexiconDocV1 =
-  RecordLexiconDoc { _id :: NSID
+  RecordLexiconDoc { _nsid :: NSID
                    , _revision :: Maybe Double
                    , _description  :: Maybe Text
                    , _defs :: Maybe Value
                    , _key :: Maybe Text
                    , _record :: Value
                    }
-  | XrpcProcedureLexiconDoc { _id :: NSID
+  | XrpcProcedureLexiconDoc { _nsid :: NSID
                             , _revision :: Maybe Double
                             , _description  :: Maybe Text
                             , _defs :: Maybe Value
@@ -85,7 +85,7 @@ data LexiconDocV1 =
                             , _output :: Maybe XrpcBody
                             , _error :: Maybe XrpcError
                             }
-  | XrpcQueryLexiconDoc { _id :: NSID
+  | XrpcQueryLexiconDoc { _nsid :: NSID
                         , _revision :: Maybe Double
                         , _description  :: Maybe Text
                         , _defs :: Maybe Value
