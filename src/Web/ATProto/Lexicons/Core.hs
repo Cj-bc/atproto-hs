@@ -3,10 +3,12 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 module Web.ATProto.Lexicons.Core where
 import Data.Text (Text)
+import qualified Data.Text as T
 import Data.Aeson (Value(..), FromJSON(parseJSON), (.:), (.:?), Object, withObject, withText)
 import Data.Aeson.Types (Parser)
 import Control.Monad (when)
 import qualified Data.Map as Map
+import Data.String (IsString, fromString)
 
 
 -- | NameSpace ID.
@@ -19,6 +21,9 @@ newtype NSID = NSID { unNSID :: Text } deriving (Show, Eq)
 
 instance FromJSON NSID where
   parseJSON = withText "NSID" (return . NSID)
+
+instance IsString NSID where
+  fromString = NSID . T.pack
   
 -- | Possible Body encodings.
 --
